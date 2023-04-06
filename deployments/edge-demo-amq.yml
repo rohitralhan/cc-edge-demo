@@ -1,0 +1,38 @@
+apiVersion: project.openshift.io/v1
+description: "betting-demo"
+displayName: betting-demo
+kind: ProjectRequest
+metadata:
+    name: betting-demo
+
+---
+
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  annotations:
+    olm.providedAPIs: Kafka.v1beta2.kafka.strimzi.io,KafkaBridge.v1beta2.kafka.strimzi.io,KafkaConnect.v1beta2.kafka.strimzi.io,KafkaConnector.v1beta2.kafka.strimzi.io,KafkaMirrorMaker.v1beta2.kafka.strimzi.io,KafkaMirrorMaker2.v1beta2.kafka.strimzi.io,KafkaRebalance.v1beta2.kafka.strimzi.io,KafkaTopic.v1beta2.kafka.strimzi.io,KafkaUser.v1beta2.kafka.strimzi.io,StrimziPodSet.v1beta2.core.strimzi.io
+  name: betting-demo-cxcxw
+  namespace: betting-demo
+spec:
+  targetNamespaces:
+  - betting-demo
+  upgradeStrategy: Default
+
+---
+
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    operators.coreos.com/amq-streams.betting-demo: ""
+  name: amq-streams
+  namespace: betting-demo
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: amq-streams
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: amqstreams.v2.3.0-3
+
