@@ -12,6 +12,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.jboss.resteasy.reactive.RestPath;
+
 import domain.Customer;
 import domain.CustomerBet;
 import service.Postgres;
@@ -45,11 +48,18 @@ public class CustomerResource {
     	
     }
   
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/membership")    
     public String getCustMemType(Map<String, String> request) {
     	return pg.getCustomerMemType(request.get("email"));
     }
     
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/membership/{email}")    
+    public String getCustMemType(@RestPath String email) {
+    	return pg.getCustomerMemType(email);
+    }    
+
 }
